@@ -1,3 +1,3 @@
-The website is currently running on:
+The OpenShift `php` cartridge documentation can be found at:
 
-https://freefood-weiqing.rhcloud.com/
+https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-php/README.md

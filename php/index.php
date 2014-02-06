@@ -1,6 +1,9 @@
 
 <?php
 require_once 'fbLogin.php';
+require_once "inc/events.php";
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 ?>
 
 <!DOCTYPE html>
@@ -16,11 +19,18 @@ require_once 'fbLogin.php';
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      
+      .main-wrapper{
+        margin-top:100px;
+      }
+    </style>
 
     <!-- Custom styles for this template -->
     <?php if ($user): ?>
     <?php else:?>
     <link href="css/cover.css" rel="stylesheet">
+    
     <?endif?>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -35,8 +45,10 @@ require_once 'fbLogin.php';
 
   <body>
     <?php if ($user): ?>
+
+      <div class="navbar navbar-default navbar-fixed-top my-nav">
            <ul class="nav navbar-nav navbar-right my-nav-right">
-            <li class="dropdown">
+            <li class="dropdown" id="user-li">
 
                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                <span><img style="width:32px; height:32px; margin:0px; padding:2px;" class="img-rounded" src="https://graph.facebook.com/<?php echo $user; ?>/picture"><span><?php echo $user_profile['name']?> </span><b class="caret"></b></span>
@@ -44,15 +56,37 @@ require_once 'fbLogin.php';
                 <ul class="dropdown-menu">
                   <li><a href="logout.php">Logout</a></li>
                   <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
                   <li><a href="#">Separated link</a></li>
                 </ul>
 
             </li>
            
            </ul>
+      </div>
+      <div class="container main-wrapper">
+        <div class="row">
+          <?php 
+          $events = get_events_recent();
+          //print_r($events);
+            foreach($events as $event){
+              ?>
+              
+                <div class="col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <div class="caption">
+                      <h3><?php echo $event['event_name']?></h3>
+                      <p>...</p>
+                      <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                    </div>
+                  </div>
+                </div>
+              
+          <?php
+            }
+           ?>
+          </div>
+      </div>
           
-
     <?php else: ?>
 
     <div class="site-wrapper">

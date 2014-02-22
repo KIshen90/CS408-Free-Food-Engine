@@ -1,0 +1,240 @@
+<!DOCTYPE html >
+<style>
+body{
+  background: #00589F;
+
+  color: white;
+
+}
+
+#main
+{
+width:300px;
+height:100px;
+margin-left:auto;
+margin-right:auto;
+margin-top:2%;
+text-align:left;
+background-color:#FFFFFF;
+background-image: -webkit-linear-gradient(top, #FFFFFF 0%,#DDDDDD 100%);
+border-radius: 4px 4px 4px 4px;
+border-bottom: 3px solid #CCCCCC;
+border-right:3px solid #CCCCCC;
+
+}
+
+#main1
+{
+width:300px;
+height:170px;
+margin-left:auto;
+margin-right:auto;
+vertical-align:middle;
+background-color:#FFFFFF;
+background-image: -webkit-linear-gradient(top, #FFFFFF 0%,#DDDDDD 100%);
+border-radius: 4px 4px 4px 4px;
+border-bottom: 3px solid #CCCCCC;
+border-right:3px solid #CCCCCC;
+
+}
+
+#input1
+{
+margin-left:13px;
+height:19px;
+color:#778899;
+}
+
+#input2
+{
+
+margin-left:13px;
+margin-top:7px;
+height:19px;
+color:#778899;
+
+}
+
+#buttonone
+{
+
+background-image:linear-gradient(#33BCEF, #019AD2);
+padding:1px;
+height:25px;
+width:55px;
+color:#FFFFFF;
+font-family:Arial,sans-sarif;
+text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+padding:4px;
+border-left:4px;
+border-top:4px;
+border-bottom-left-radius:4px;
+border-bottom-right-radius:4px;
+border-top-left-radius:4px;
+border-top-right-radius:4px;
+
+}
+
+#checkbox1
+{
+margin-left:10px;
+margin-top:5px;
+font-size:6;
+}
+
+#fontone
+{
+color:#999999;
+font-size:11px;
+line-height: 13px;
+}
+
+#checkbox1
+{
+height:9px;
+}
+
+
+#dot
+{
+height:10px;
+}
+
+#heading1
+{
+font-size:16px;
+font-family:Arial,sans-serif;
+margin-left:10px;
+}
+
+
+#mainText
+{
+margin-top:1%;
+margin-left:13px;
+
+color:#778899;
+}
+
+#mainText1
+{
+margin-top:5px;
+margin-left:13px;
+
+color:#778899;
+
+}
+
+#mainText2
+{
+margin-top:5px;
+margin-left:13px;
+
+color:#778899;
+}
+
+#mainButton
+{
+
+background-image:linear-gradient(#FEE94F, #FD9A0F);
+padding:1px;
+height:25px;
+width:55px;
+color:#000000;
+font-family:Arial,sans-sarif;
+text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+padding:4px;
+border-left:4px;
+border-top:4px;
+border-bottom-left-radius:4px;
+border-bottom-right-radius:4px;
+border-top-left-radius:4px;
+border-top-right-radius:4px;
+margin-top:13px;
+margin-left:225px;
+
+}
+
+
+#title
+{
+font-family:Arial;
+color:#FFFFFF;
+font-size:150%;
+font-weight:700px;
+margin-left:40%;
+margin-right:35%;
+margin-top:10%;
+
+}
+
+#span1
+{
+margin-left:95px;
+}
+
+#span2
+{
+margin-left:55px;
+}
+#span3
+{
+font-size:30px;
+color:#9900FF;
+}
+
+#span4
+{
+font-size:30px;
+color:#00FF00;
+}
+
+#span5
+{
+font-size:30px;
+color:#FF3300;
+}
+
+</style>
+
+<body>
+
+
+<div>
+
+
+<div id="title"> 
+<text  >Welcome to <span id="span3">FreeFoodEngine</span> <br> 
+         <span id="span1">  Free is <span id="span4"> Good</span> <br> </span>
+	<span id="span2"> Free is always <span id="span5">Good!</span> </span> </text>
+</div>	
+
+
+
+<div id="main">
+
+<br>
+<form  align="left" id="formone" action="auth.php" method="post" >
+<input size="40" type="text" value="Username or email" id="input1" name="username">
+<input size="30" type="password" value="Password" id="input2" name="password"  >
+<button align="30px" class="btn" id="buttonone" color="white" type="submit"> Sign in</button>
+</form>
+
+<form>
+<input type="checkbox" id="checkbox1" ><span  id="fontone" >Remember me </span>  <span id="dot">.</> <span id="spanone"> Forgot password?</span>
+</input>    
+</form>
+</div>
+
+<div id="main1">
+<form id="main1" action="login.php" method="post">
+<h2 id="heading1"> New to FreeFoodEngine? <span style="color:gray"> Sign Up</span></h2>
+<input type="text" size="40" id="mainText" value="Full name" name="fullname"> </input>
+<input type="text" id="mainText1" size="40" value="Email" name="email" >  </input>
+<input type="text" id="mainText2" size="40" value="Password" name="password" > </input>
+<input type="submit" value="Sign up" id="mainButton" ></input>
+</form>
+</div>
+<div>
+</body>
+</html>

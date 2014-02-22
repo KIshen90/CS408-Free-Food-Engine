@@ -1,0 +1,86 @@
+<!DOCTYPE html >
+
+<html>
+<head>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
+
+<script>
+
+	
+function findAddress()
+{
+	
+	
+	var z;
+	
+	var geocoder = new google.maps.Geocoder();
+	
+	var address = document.getElementById('address').value;
+	
+	if(geocoder)
+	{
+
+
+	geocoder.geocode({'address': address}, function(results,status)
+		{
+		
+		alert ("test");
+			if(status == google.maps.GeocoderStatus.OK)
+			{
+				if(results[0])
+				{
+					z = results[0].geometry.location;
+					
+					document.getElementById('secondInput').value = z.lat();
+					document.getElementById('thirdInput').value = z.lng();
+					
+					
+				
+				}
+			}
+			else 
+			{
+				alert("Geocoder failed due to: " + status);
+			}
+		});
+	
+	}
+}
+
+</script>
+
+<script>
+
+function initialize(){
+
+var input = (document.getElementById('address'));
+
+	
+var autocomplete = new google.maps.places.Autocomplete(input);
+
+
+
+}
+
+</script>
+
+</head>
+
+<body onload="initialize()">
+
+<label value="address :" />
+
+
+
+<input type="text" id="address" />
+
+
+<input type="button" onclick="findAddress()" value="click me"></input>
+<input type="text" id="secondInput"></input>
+<input type="text" id="thirdInput"></input>
+
+
+</body>
+
+
+</html>

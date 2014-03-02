@@ -1,0 +1,186 @@
+ABE Agricultural and Biological engineering
+ADDL Animal disease diagnostic lab
+ADM adm agricultural innovation Center
+AERO aerospace science laboratory
+AGAD agricultural administration Building
+AHF animal Holding Facility
+AQUA Boilermaker aquatic Center
+AR armory
+ARMS armstrong (neil) Hall of engineering
+ASB airport service Building
+ASTL animal sciences teaching laboratory
+BCC Black Cultural Center
+BCHM Biochemistry Building
+BIND Bindley (William e.) Bioscience Center
+BRK Birck nanotechnology Center
+BRNG Beering (steven C.) Hall of liberal arts and education
+BRWN Brown (Herbert C.) laboratory of Chemistry
+BSG Building services and grounds
+CHAF Chaffee Hall
+CIVL Civil engineering Building
+CL50 Class of 1950 lecture Hall
+COMP Composites laboratory
+CREC France a. Córdova recreational sports Center
+DANL daniel (William H.) turfgrass Center
+DAUC dauch (dick and sandy) alumni Center
+DLR Hall for discovery and learning research
+DOYL doyle (leo Philip) laboratory
+DYE Pete dye Clubhouse
+EE electrical engineering Building
+EEL entomology environmental laboratory
+EHSA equine Health sciences annex
+EHSB equine Health sciences Building
+ELLT elliott (edward C.) Hall of music
+ENAD engineering administration Building
+EXPT Exponent
+FOOD Food stores Building
+FOPN Flight operations Building
+FORS Forestry Building
+FPRD Forest Products Building
+FREH Freehafer (lytle J.) Hall of administrative services
+FRNY Forney Hall of Chemical engineering
+FWLR Fowler (Harriet o. and James m., Jr.) memorial House
+GCMB golf Course maintenance Barn
+GMF grounds maintenance Facility
+GRIS grissom Hall
+GSMB golf storage maintenance Building
+HAAS Haas (Felix) Hall
+HAMP delon and elizabeth Hampton Hall of Civil engineering
+HANS Hansen (arthur g.) life sciences research Building
+HEAV Heavilon Hall
+HERL Herrick laboratories
+HGR4-6 Hangars, numbers 4 through 6
+HGRH Horticulture greenhouses
+HIKS Hicks (John W.) undergraduate library
+HMMT Hazardous materials management trailer
+HNLY Bill and sally Hanley Hall
+HOCK Wayne t. and mary t. Hockmeyer Hall of structural Biology
+HORT Horticulture Building
+HOVD Hovde (Frederick l.) Hall of administration
+HPN Heating and Power Plant-north
+IAF intercollegiate athletic Facility
+JNSN Johnson (Helen r.) Hall of nursing
+KCTR Krannert Center for executive education and research
+KNOY Knoy (maurice g.) Hall of technology
+KRAN Krannert Building
+LAMB lambert (Ward l.) Fieldhouse and gymnasium
+LCC latino Cultural Center (600 russell st.)
+LILY lilly Hall of life sciences
+LMSB laboratory materials storage Building
+LMST laboratory materials storage trailer
+LSA life science animal Building
+LSPS life science Plant and soils laboratory
+LSR life science ranges (greenhouse and service Building)
+LWSN lawson (richard and Patricia) Computer science Building
+LYNN lynn (Charles J.) Hall of veterinary medicine
+MACK mackey (guy J.) arena
+MANN mann (gerald d. and edna e.) Hall
+MATH mathematical sciences Building
+ME mechanical engineering Building
+MGL michael golden engineering laboratories and shops
+MJIS martin C. Jischke Hall of Biomedical engineering
+MMDC materials management and distribution Center
+MMS1 materials management storage Building
+MOLL mollenkopf athletic Center
+MRGN morgan (Burton d.) Center for entrepreneurship
+MRRT marriott Hall
+MSEE materials and electrical engineering Building
+MTHW matthews (mary l.) Hall
+NAECC native american educational and Cultural Center (south Campus Courts, Building B)
+NLSN Phillip e. nelson Hall of Food science
+NISW niswonger aviation technology Building
+NUCL nuclear engineering Building
+OLMN ollman (melvin l.) golfcart Barn
+PAO Pao (Yue-Kong) Hall of visual and Performing arts
+PFEN Pfendler Hall (david C.) of agriculture
+PFSB Physical Facilities service Building
+PHYS Physics Building
+PJIS Patty Jischke early Care and education Center
+PMU Purdue memorial union
+PMUC Purdue memorial union Club
+POAN Poultry science annex
+POTR Potter (a. a.) engineering Center
+POUL Poultry science Building
+PRCE Peirce Hall
+PRSV Printing services Facility
+PSYC Psychological sciences Building
+PUSH Purdue university student Health Center
+PVCC Purdue village Community Center
+PWD Parking Facilities
+RAIL american railway Building
+RAWL rawls (Jerry s.) Hall
+REC recitation Building
+RHPH Heine (robert e.) Pharmacy Building
+SC stanley Coulter Hall
+SCCA-E south Campus Courts, Buildings a-e
+SCHL schleman (Helen B.) Hall of student services
+SCHO global Policy research institute (schowe House)
+SCPA slayter Center of Performing arts
+SMTH smith Hall
+SOIL soil erosion laboratory, national
+SPUR spurgeon (tom) golf training Center
+SSOF state street office Facility
+STDM ross-ade stadium (includes ross-ade Pavilion [raP])
+STEW stewart Center
+STON stone (Winthrop e.) Hall
+TEL telecommunications Building
+TERM terminal Building
+TERY terry (oliver P.) memorial House
+TH1-6 tee-Hangars 1 through 6
+TREC turf recreation exercise Center
+TSWF transportation service Wash Facility
+UNIV university Hall
+UPOB utility Plant office Building
+UPOF utility Plant office Facility
+UPSB utility Plant storage Building
+VA1 veterinary animal isolation Building 1
+VA2 veterinary animal isolation Building 2
+VCPR veterinary Center for Paralysis research
+VLAB veterinary laboratory animal Building
+VMIF veterinary medicine isolation Facility
+VOIN voinoff (samuel) golf Pavilion
+VPRB veterinary Pathobiology research Building
+VPTH veterinary Pathology Building
+WADE Wade (Walter W.) utility Plant
+WEST Westwood (President’s Home)
+WGLR Women’s golf locker room
+WSLR Whistler (roy l.) Hall of agricultural research
+WTHR Wetherill (richard Benbridge) laboratory of Chemistry
+YONG Young (ernest C.) Hall
+ZL1 Combustion research laboratory
+ZL2 gas dynamics research laboratory
+ZL3 High Pressure research laboratory
+ZL4 Propulsion research laboratory
+ZL5 turbomachinery Fluid dynamics laboratory
+CARY Cary (Franklin levering) Quadrangle
+DUHM duhme (ophelia) residence Hall
+ERHT earhart (amelia) residence Hall
+FORD Ford (Fred and mary) dining Court
+FST First street towers
+HARR Harrison (Benjamin) residence Hall
+HAWK Hawkins (george a.) Hall
+HILL Hillenbrand residence Hall
+HLTP Hilltop apartments
+MCUT mcCutcheon (John t.) residence Hall
+MRDH meredith (virginia C.) residence Hall
+OWEN owen (richard) residence Hall
+PVAB Purdue village administration Building
+PVIL Purdue village
+PVP Purdue village Preschool
+SHLY shealy (Frances m.) residence Hall
+SHRV shreve (eleanor B.) residence Hall
+SMLY smalley (John C.) Center for Housing and Food services administration, residence Hall
+VAWT vawter (everett B.) residence Hall
+WARN Warren (martha e. and eugene K.) residence Hall
+WDCT Wiley dining Court
+WILY Wiley (Harvey W.) residence Hall
+WOOD Wood (elizabeth g. and William r.) residence Hall
+ALEX John and anna margaret ross alexander Field
+SOCC soccer Complex
+SCHW dennis J. and mary lou schwartz tennis Center
+PGG Parking garage, grant street
+PGW Parking garage, Wood street
+PGM Parking garage, marsteller street
+PGMD Parking garage, mcCutcheon drive
+PGNW Parking garage, northwestern avenue (includes visitor information Center and Parking services)
+PGU Parking garage, university street

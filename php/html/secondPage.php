@@ -324,13 +324,13 @@ z-index:10;
 
 <?php
 
-$result = mysql_query("SELECT address FROM addEvent");
+$result = mysql_query("SELECT event_location FROM event");
 
 $address = "";
 
  while($locat = mysql_fetch_array($result))
  {
-	$address = $locat['address'];
+	$address = $locat['event_location'];
  
  
  }

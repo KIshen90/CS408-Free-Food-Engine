@@ -1,0 +1,193 @@
+.my-nav{
+  background-color: rgb(255, 255, 255);
+  border-bottom-color: #fff;
+}
+
+.my-nav .navbar-nav > .active > a, .my-nav .navbar-nav > .active > a:hover {
+     color: rgb(114, 192, 44);
+    background-color: rgb(255, 255, 255);
+    border-bottom: 2px solid rgb(114, 192, 44);
+}
+
+#pizza{
+  display: inline-block;
+  width:20px;
+  height: 20px;
+  content: url('../pizza_like.jpg');
+}
+
+html, body {
+
+    height:100%;
+}
+
+body {
+
+}
+.hero-description {
+color: #666665;
+font-size: 18px;
+outline: 0;
+word-break: break-word;
+letter-spacing: -0.02em;
+}
+
+.hero-standalone {
+padding: 100px 0 40px;
+height: auto;
+}
+.hero {
+text-align: center;
+font-family: "jaf-bernino-sans","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+letter-spacing: -0.02em;
+font-weight: 400;
+font-style: normal;
+color: #333332;
+font-size: 18px;
+line-height: 1.4;
+-webkit-font-smoothing: antialiased;
+}
+.hero-title {
+font-family: "jaf-bernino-sans","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+letter-spacing: -0.02em;
+font-weight: 800;
+font-style: normal;
+font-size: 50px;
+letter-spacing: -0.04em;
+line-height: 1;
+color: #333332;
+margin-bottom: 8px;
+outline: 0;
+word-break: break-word;
+}
+.hero-standalone-underline:after {
+content: '';
+background: #dededc;
+height: 1px;
+width: 120px;
+display: block;
+margin: 30px auto 0;
+}
+
+.user-profile{
+  position:fixed;
+  top:20px;
+  right:30px;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.myinput {
+padding: 15px;
+border: 1px solid #ccc;
+border-radius: 3px;
+margin-bottom: 10px;
+width: 100%;
+box-sizing: border-box;
+color: #2C3E50;
+font-size: 13px;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+          color: white;
+          background-color: #dd6053;
+          background-image: none;
+          filter: none;
+        }
+.my-nav-right{
+  text-decoration: none;
+  list-style-type: none;
+  list-style: none;
+}
+.my-dropdown{
+  
+
+}
+
+.my-nav-right{
+    margin-top: -4px;
+    height: 50px;
+}
+.list-group-item:hover{
+  background-color: #f6f6f6;
+  cursor: pointer;
+}
+
+.cell{
+	width:100%;
+	height:100px;
+	padding:10px;
+	padding-top: 30px;
+	margin-left:0px;
+	border-bottom:1px solid rgb(231, 231, 231);
+}
+
+  .bs-sidenav {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-shadow: 0px 1px 0px rgb(255, 255, 255);
+    background-color: rgb(247, 245, 250);
+    border-radius: 5px 5px 5px 5px;
+    }
+    .bs-sidebar .nav > li > a {
+    display: block;
+    color: rgb(113, 107, 122);
+    padding: 5px 20px;
+    }
+    .my-list{
+      margin-top: 30px;
+    }
+
+  .active{font-weight:bold;}
+    .nav > li > a:hover, .nav > li > a:focus {
+      text-decoration: none;
+      background-color: #fff;
+    }
+
+ #my-alert-wrapper{
+
+ 	padding-top: 53px;
+ 	margin-bottom: -60px;
+ }
+
+ .close-x{
+ 	cursor: pointer;
+
+ }
+
+ .user-col{
+  margin-bottom:20px;
+  
+ }
+.user-thumb{
+  color:#333;
+}
+.user-thumb > img{
+  margin-left:0px;
+  width:100%;
+
+}
+.user-img:hover{
+   opacity:0.7;
+   transition: opacity 0.1s linear 0s;
+}
+ .user-thumb:hover{
+  cursor: pointer;
+  
+ }
+.user-thumb > span{
+  position:absolute;
+  top: 0px;
+  left:-5px;
+}
+ .names{
+  color:#555;
+  margin-top: 10px;
+ }
+.img-wrap{
+  background-color: #fff;
+}
+.img-wrap:hover{
+  background-color: #000;
+}

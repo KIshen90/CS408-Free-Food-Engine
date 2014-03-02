@@ -1,12 +1,5 @@
 <?PHP
-$server = "mydb.ics.purdue.edu";
-$username = "ksivalin";
-$password = "901011";
-$database =  "ksivalin";
-
-
-$conn = mysql_connect($server,$username,$password) or die ("Cannot connect to the database");
-$selectDb = mysql_select_db($database,$conn) or die ( " Cannot connect to the database");
-$selectDb = mysql_select_db($database,$conn) or die ( " Cannot connect to the database");
-
+		require "../inc/database.php";
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
 ?>

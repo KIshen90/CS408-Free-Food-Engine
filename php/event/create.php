@@ -131,10 +131,14 @@ require_once "../inc/events.php";
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/create.css" rel="stylesheet">
    
-     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-     <script src='../js/jquery-ui.custom.min.js'></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+   <!-- <script src='../js/jquery-ui.custom.min.js'></script> -->
     <script src="../js/bootstrap.min.js"></script>
-     <script type="text/javascript" src="../js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../js/bootstrap-datepicker.js"></script>
+    <script type ="text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type ="text/javascript"  src ="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+    <script type ="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/trontastic/jquery-ui.css">
      
     <style type="text/css">
       .main-wrapper{
@@ -178,7 +182,7 @@ require_once "../inc/events.php";
            
           <div class="navbar-collapse collapse">
 
-             <ul class="nav navbar-nav navbar-right my-nav-right ">
+             <ul class="nav navbar-nav ">
               <li class="dropdown" id="user-li">
 
                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -217,9 +221,9 @@ require_once "../inc/events.php";
           <fieldset>
             <h2 class="fs-title">Where and when</h2>
             <h3 class="fs-subtitle">Where is the event ?</h3>
-            <input class= "event-location" type="text" name="Location" placeholder="Where is this event?" list="locations" />
+            <input class= "event-location" type="text" name="Location" id= "address"placeholder="Where is this event?" list="locations" />
             <h3 class="fs-subtitle">Date and time</h3>
-            <input class="event-time" type="datetime-local" name="datetime" min="2013-08-28T00:00:00"/>
+            <input class="event-time" type="datetime-local" name="datetime" id="startDate" min="2013-08-28T00:00:00"/>
             
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="button" name="next" class="mynext action-button" value="Next" />
@@ -241,7 +245,7 @@ require_once "../inc/events.php";
     </div>
           
 
-    <datalist id="locations">
+    <datalist id="locations-delete">
       <option>ABE</option>
       <option>Agricultural and Biological engineering</option>
       <option>ADDL</option> 
@@ -474,6 +478,16 @@ H5
     $(document).ready(function() {
         var cur_user = "<?php echo $user_profile['name'] ?>";
         var cur_user_avatar = "https://graph.facebook.com/<?php echo $user; ?>/picture";
+
+        var input = (document.getElementById('address'));
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        $(function() {
+            //$('.event-time').datepicker();
+            //$('.event-time').datepicker("bounce",$(this).val());
+        });
+  
+
       
         function addEvent(user_id, event_name, event_time, event_location, event_detail, event_poster_url){
 

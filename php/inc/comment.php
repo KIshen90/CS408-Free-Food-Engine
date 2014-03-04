@@ -5,6 +5,9 @@
     define( "DB_DATABASE",  getenv('OPENSHIFT_APP_NAME') );
     date_default_timezone_set('America/New_York'); 
 
+    require_once 'user.php';
+	//error_reporting(E_ALL);
+	//ini_set('display_errors', '1');
 	if(isset($_POST['content']))
 	{
 
@@ -25,7 +28,7 @@
 	    echo $link;
 	    try {
 	    	
-	        $query_insert = "INSERT INTO comment (content, create_time, user_id, event_id) VALUES ('" . $content . "', '" . $posttime . "','" . $user_id . "','" . $event_id . "')" or die('insert fail');
+	        $query_insert = "INSERT INTO comment (content, create_time, user_id, event_id) VALUES ('" . addslashes(htmlentities($content)) . "', '" . $posttime . "','" . $user_id . "','" . $event_id . "')" or die('insert fail');
         	mysql_query($query_insert) or die('Insert to messages failed');
         
 
@@ -81,7 +84,7 @@
     	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
 	    
 	    try {
-	       $query = "SELECT * FROM comment WHERE event_id =" . $event_id . "ORDER BY create_time";
+	       $query = "SELECT * FROM comment WHERE event_id =" . $event_id . " ORDER BY create_time";
 		   $results = mysql_query($query) or die('query fail');
 
 	    } catch (Exception $e) {
@@ -91,9 +94,12 @@
 	    $recent = array();
 
 	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+	    	$comment_user = get_user_info($row['user_id']);
 
 	    	$recent[] = array(
-	    			'name' => $row['event_name']
+	    			'avatar_url' => $comment_user[0]['avatar_url'],
+	    			'user' => $comment_user[0]['username'],
+	    			'content' => $row['content']
 
 	    		);
 	    }

@@ -1,9 +1,20 @@
+
 <?php
-require_once 'fbLogin.php';
-require_once "inc/events.php";
-require_once "inc/comment.php";
+require_once '../fbLogin.php';
+require_once "../inc/events.php";
+require_once "../inc/comment.php";
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
+?>
+
+<?php
+
+
+
+
+   $events = get_event($_GET['event_id']);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -15,11 +26,19 @@ require_once "inc/comment.php";
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Free Food Engine</title>
+    <title><?php echo $events[0]['event_name']?><?php echo " ".$events[0]['event_location']?><?php echo " ".$events[0]['event_time']?></title>
+    <?php
+    if(!isset($_GET['event_id']))
+    {
+    //echo "test";
+      die("no event id");
+      
+    } 
 
+    ?>
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/nav.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
     
     <style type="text/css">
       
@@ -27,7 +46,7 @@ require_once "inc/comment.php";
         margin-top:10px;
         margin-left: auto;
         margin-right: auto;
-        max-width: 700px;
+        width:700px;
       }
       .side-bar{
         border-left:1px dotted #CCC;
@@ -70,18 +89,12 @@ require_once "inc/comment.php";
         border-bottom: #ccc dotted 1px;
         padding-bottom: 10px;
       }
-      .event-title{
-                
-        color: #333;
-        text-decoration: none
-
-      }
     </style>
 
     <!-- Custom styles for this template -->
     <?php if ($user): ?>
     <?php else:?>
-    <link href="css/cover.css" rel="stylesheet">
+    <link href="../css/cover.css" rel="stylesheet">
     
     <?endif?>
 
@@ -107,48 +120,39 @@ require_once "inc/comment.php";
 
     <?php if ($user): ?>
 
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid"> 
-          <div class="navbar-header">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              
-              <ul class="nav navbar-nav">
-                <div class="user-profile">
-                 <li><a href="#">
-                 <span><img style="width:25px; height:25px; margin:0px; padding:0px; margin-right:4px;" class="img-rounded" src="https://graph.facebook.com/<?php echo $user; ?>/picture"><span><?php echo $user_profile['name']?> </span><!--<b class="caret"></b>--></span>
-                 </a></li>
-                 <li><a class = "logout" href="logout.php">Logout</a></li>
-                 <li class = "active"><center><a class = "createAnEvent" href="event/create.php">Create a event here</a></center></li>
-                 </div>
-              </ul>
-                 
-           </div>
-          </div>
-        </div>  
-     </nav>
-      <header class="hero hero-standalone layout-single-column hero-standalone-underline">
-      <h1 class="hero-title">Where is free food?</h1>
-      <p class="hero-description">Free food information around Purdue University Campus.</p>
-      <a class="fb-share-button" data-href="http://freefood-weiqing.rhcloud.com" data-type="button_count"></a>
-                        
-      </header>
+           
+          <div class="user-profile">
 
-      <div class="container main-wrapper span6">
+             <ul class="my-nav-right ">
+              <li class="dropdown my-dropdown" id="user-li">
+
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                 <span><img style="width:25px; height:25px; margin:0px; padding:0px; margin-right:4px;" class="img-rounded" src="https://graph.facebook.com/<?php echo $user; ?>/picture"><span><?php echo $user_profile['name']?> </span><b class="caret"></b></span>
+                 </a>
+                  <ul class="dropdown-menu pull-right">
+                    <li><a href="../logout.php">Logout</a></li>
+                    <li class="create-event-btn"><a href="create.php">Create a event here</a></li>
+                    
+
+                    <li><a href="#">Separated link</a></li>
+                  </ul>
+
+              </li>
+             
+             </ul>
+
+           </div>
+          
+
+      <div class="container main-wrapper">
         <div class="panel panel-default">
          <div class="panel-body">
 
-           <form class="search-form" role="search">
-            <div class="form-group">
-              <input type="text" class="myinput my-search" placeholder="Search">
-            </div>
-           
-          </form>
-
+          
           <div class="event-list">
             <div class="row">
           <?php 
-          
-          $events = get_events_recent_after_today();
+         
           //print_r($events);
             foreach($events as $event){
               $comments = get_comments($event['id']);
@@ -159,7 +163,9 @@ require_once "inc/comment.php";
                 <div class="row event">
                  <!--<div class="thumbnail">-->
                     <div class="caption">
-                      <div id="event-header"><h3><a class="event-title" href="event/index.php?event_id=<?php echo $event['id']?>"><?php echo $event['event_name']?></a></h3>
+                    <a class="fb-share-button pull-right" data-href="https://freefood-weiqing.rhcloud.com/event/index.php?event_id=<?php echo $event['id']?>" data-type="button_count"></a>
+                      
+                      <div id="event-header"><h3><?php echo $event['event_name']?></h3>
                        
                         <?php 
                           for ($i = 1; $i <= intval($event['event_likes']); $i++) {
@@ -173,26 +179,10 @@ require_once "inc/comment.php";
 
                       <h5><?php echo "@" . futureTime2String($event['event_time'])?></h5>
                      
-                       <p style="color:#999;"><?php 
-                      $string = $event['event_detail'];
-                      $string = strip_tags($string);
-
-                      if (strlen($string) > 500) {
-
-                          // truncate string
-                          $stringCut = substr($string, 0, 500);
-
-                          // make sure it ends in a word so assassinate doesn't become ass...
-                          $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'... <a href="event/index.php?event_id='.$event['id'].'">Read More</a>'; 
-                      }
-                      echo $string;
-                      
-
-                      ?></p>
+                      <p style="color:#999;"><?php echo $event['event_detail']?></p>
                       <div class="event-info">
-
-			<div style="display:none;" id="location-map" class="result"><a href="" id="my_href"><img class="img-rounded" width="100%" height="250" src="http://maps.google.com/maps/api/staticmap?center=<?php echo $event['event_location']?>%20purdue%22&markers=<?php echo $event['event_location']?>%20purdue%22&zoom=17&size=700x250&scale=2&maptype=roadmap&sensor=false" id="my_src"></a></div>
-
+                        <div id="location-map" class="result"><a href="" id="my_href"><img class="img-rounded" width="100%" height="250" src="http://maps.google.com/maps/api/staticmap?center=<?php echo $event['event_location']?>%20purdue%22&markers=<?php echo $event['event_location']?>%20purdue%22&zoom=17&size=700x250&scale=2&maptype=roadmap&sensor=false" id="my_src"></a></div>
+                         
                         <span class="glyphicon glyphicon-map-marker event-icon"></span>
                         <span class="event-info-text" style="color:#AAA"><?php echo $event['event_location']?></span>
                         <br>
@@ -200,14 +190,11 @@ require_once "inc/comment.php";
                         <span class="event-info-text" style="color:#AAA"><?php echo $num_comment?></span>
                         <!--<span class="glyphicon glyphicon-heart event-icon" style="color:#EB3F3F;"></span>-->
                         <span class="time-str" style="font:small;color:#AAA;"><?php echo "Posted ".time2string($event['create_time'])." ago"?></span>
-                        <!--
-                        <a class="fb-share-button" data-href="http://freefood-weiqing.rhcloud.com/event/index.php?event_id=<?php echo $event['id']?>" data-type="icon_link"></a>
-                        -->
-                       <!-- <span class="pull-right" style="color:#AAA;">Comment</span>-->
+                        <!-- <span class="pull-right" style="color:#AAA;">Comment</span>-->
                       
                       </div>
-	
-                      <div class="row comment-box" style="display:none;">
+
+                      <div class="row comment-box">
                         <?php  if($num_comment>0):
                         ?>
                         <div class="media ">
@@ -324,29 +311,19 @@ require_once "inc/comment.php";
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="<script type ="text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type ="text/javascript"  src ="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-    <script type ="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <script>
-
     $(document).ready(function() {
         var cur_user = "<?php echo $user_profile['name'] ?>";
         var cur_user_avatar = "https://graph.facebook.com/<?php echo $user; ?>/picture";
 
         var comment_selector;
 
-	var map;
-
-	var geolocate;
-
-	
-
-	function addComment(content, user_id ,event_id){
+        function addComment(content, user_id ,event_id){
 
                   jQuery.ajax({
                        type: "POST",
-                       url: "inc/comment.php",
+                       url: "../inc/comment.php",
                        data: { user_id: user_id, event_id: event_id, content:content},
                        cache: false,
                        success: function(response){
@@ -357,22 +334,6 @@ require_once "inc/comment.php";
                       }
                     });
             }
-
-        function addEvent(user_id, event_name, event_time, event_location, event_detail, event_poster_url){
-
-                  jQuery.ajax({
-                       type: "POST",
-                       url: "inc/event.php",
-                       data: { user_id: user_id, event_name: event_name, event_time: event_time, event_location: event_location, event_detail: event_detail, event_poster_url: event_poster_url},
-                       cache: false,
-                       success: function(response){
-                       
-                       
-                      
-                      }
-                    });
-            }
-
 
         $(".glyphicon-map-marker").click(function(){
 
@@ -404,16 +365,6 @@ require_once "inc/comment.php";
                 }
         });
 
-         $('.my-search').keypress(function(event) {
-                if(event.which == 13) {
-                    event.preventDefault();
-                    
-                    if($(this).val()!=""){
-                        window.location.replace("https://freefood-weiqing.rhcloud.com/event/search.php?search_event="+$(this).val());
-                    }
-                }
-        });
-
         $('.create-event-btn').click(function(){
 
 
@@ -440,15 +391,6 @@ require_once "inc/comment.php";
     
 
       });
-
-      
-        
-
-
-
-
-</script>
-	
-
+    </script>
   </body>
   </html>

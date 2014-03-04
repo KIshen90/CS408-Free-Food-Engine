@@ -25,7 +25,7 @@
 	    echo $link;
 	    try {
 	    	
-	        $query_insert = "INSERT INTO event (user_id, event_name, event_time, event_location, event_detail, event_poster_url, create_time) VALUES ('" . $user_id . "', '" . $event_name . "','" . $event_time . "','" . $event_location. "','" . $event_detail. "','" . $event_poster_url. "','" . $posttime . "')" or die('insert fail');
+	        $query_insert = "INSERT INTO event (user_id, event_name, event_time, event_location, event_detail, event_poster_url, create_time) VALUES ('" . $user_id . "', '" . addslashes(htmlentities($event_name)) . "','" . $event_time . "','" . $event_location. "','" . addslashes(htmlentities($event_detail)). "','" . $event_poster_url. "','" . $posttime . "')" or die('insert fail');
         	mysql_query($query_insert) or die('Insert to messages failed');
         
 
@@ -36,6 +36,164 @@
 	    
 
 	}
+	function update_event($event_id, $user_id, $event_name, $event_time, $event_location, $event_detail, $event_poster_url){
+		
+
+		$posttime = date('Y-m-d H:i:s');
+		
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+    	
+	    try {
+	    	//$query_findevent_id = "SELECT event_id FROM event where user_id = '".$event_id."'"
+	    	//$result = mysql_query($query_findevent_id) or die('Fail to query checkuser');
+	    	//mysql_result($event_id, 0);
+	    	$query_update = "UPDATE event SET event_name='" . addslashes(htmlentities($event_name)) . "', event_time='" . $event_time . "', event_location='" . $event_location . "', event_detail='" . addslashes(htmlentities($event_detail)) . "',event_poster_url='" . $event_poster_url . "',create_time='" . $posttime . "' WHERE event_id='" . $event_id . "'";
+        	mysql_query($query_update) or die('Update fail');
+	    } catch (Exception $e) {
+	        echo "Data could not be insert into the database.";
+	        exit;
+	    }
+	    
+
+	}
+
+
+	/*
+	*	Returns the recent list of events orderd with creation time
+	*/
+	function get_events_recent_createtime_order(){
+		
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE 1 ORDER BY create_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	array_push($recent, $row);
+	    }
+
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	$recent[] = array(
+	    			'event_id' => $row['id'],
+	    			'user_id' => $row['user_id'],
+	    			'event_name' => $row['event_name'],
+	    			'event_time' => $row['event_time'],
+	    			'event_location' => $row['event_location'],
+	    			'event_detail' => $row['event_detail'],
+	    			'event_poster_url' => $row['event_poster_url'],
+	    			'event_likes' => $row['event_likes'],
+	    			'event_comments' => $row['event_comments'],
+	    			'create_time' => $row['create_time']
+
+	    		);
+	    }
+	    $json = json_encode($recent);
+        echo $json;
+	    return $json;
+
+	}
+
+	/*
+	*	Returns the recent list of events after today's date orderd with creation time
+	*/
+	function get_events_recent_after_today_createtime_order(){
+		$curtime = date('Y-m-d H:i:s');
+
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE event_time > '".$curtime."' ORDER BY create_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	$recent[] = array(
+	    			'event_id' => $row['id'],
+	    			'user_id' => $row['user_id'],
+	    			'event_name' => $row['event_name'],
+	    			'event_time' => $row['event_time'],
+	    			'event_location' => $row['event_location'],
+	    			'event_detail' => $row['event_detail'],
+	    			'event_poster_url' => $row['event_poster_url'],
+	    			'event_likes' => $row['event_likes'],
+	    			'event_comments' => $row['event_comments'],
+	    			'create_time' => $row['create_time']
+
+	    		);
+	    }
+	    $json = json_encode($recent);
+        echo $json;
+	    return $json;
+
+	}
+
+	function get_total_num(){
+		$curtime = date('Y-m-d H:i:s');
+		$items_per_group = 5;
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT COUNT(*) FROM event WHERE event_time > '".$curtime."'";
+		    $results = mysql_query($query) or die('query fail');
+		    $total_records = mysql_fetch_array($results,MYSQLI_ASSOC);
+			$total_groups = ceil(count($total_records)/$items_per_group);
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    return $total_groups;
+	}
+
+
+	/*
+	*	get the event by id
+	*/
+	function get_event($event_id){
+		
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE id = '".$event_id."' ORDER BY event_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	array_push($recent, $row);
+	    }
+
+	    return $recent;
+
+	}
+
 
 	/*
 	*	Returns the recent list of events
@@ -64,6 +222,60 @@
 
 	}
 
+
+	function get_events_byuser($user_id){
+		
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE user_id='" . $user_id . "' ORDER BY event_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	array_push($recent, $row);
+	    }
+
+	    return $recent;
+
+	}
+
+	/*
+	*	Returns the recent list of events after today's date
+	*/
+	function get_events_recent_after_today(){
+		$curtime = date('Y-m-d H:i:s');
+
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE event_time > '".$curtime."' ORDER BY event_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	array_push($recent, $row);
+	    }
+
+	    return $recent;
+
+	}
+
+
 	/*
 	*	Returns the recent list of events in json
 	*/
@@ -85,13 +297,179 @@
 	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
 
 	    	$recent[] = array(
-	    			'name' => $row['event_name']
+	    			'event_id' => $row['id'],
+	    			'user_id' => $row['user_id'],
+	    			'event_name' => $row['event_name'],
+	    			'event_time' => $row['event_time'],
+	    			'event_location' => $row['event_location'],
+	    			'event_detail' => $row['event_detail'],
+	    			'event_poster_url' => $row['event_poster_url'],
+	    			'event_likes' => $row['event_likes'],
+	    			'event_comments' => $row['event_comments'],
+	    			'create_time' => $row['create_time']
 
 	    		);
 	    }
 	    $json = json_encode($recent);
         echo $json;
 	    return $json;
+
+	}
+
+
+	/*
+	*	Search the recent list of events after today's date
+	*/
+	function search_events_recent_after_today($event_name,$event_loc){
+		$curtime = date('Y-m-d H:i:s');
+
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE event_name LIKE '%".$event_name."%' AND event_location LIKE '%".$event_loc."%' ORDER BY event_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	$recent[] = array(
+	    			'event_id' => $row['id'],
+	    			'user_id' => $row['user_id'],
+	    			'event_name' => $row['event_name'],
+	    			'event_time' => $row['event_time'],
+	    			'event_location' => $row['event_location'],
+	    			'event_detail' => $row['event_detail'],
+	    			'event_poster_url' => $row['event_poster_url'],
+	    			'event_likes' => $row['event_likes'],
+	    			'event_comments' => $row['event_comments'],
+	    			'create_time' => $row['create_time']
+
+	    		);
+	    }
+	    $json = json_encode($recent);
+        echo $json;
+	    return $json;
+
+
+	}
+
+
+	/*
+	*	Search the recent list of events after today's date with or option
+	*/
+	function search_events_recent_after_today_union($event_name,$event_loc,$event_detail){
+		$curtime = date('Y-m-d H:i:s');
+
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE event_time > '".$curtime."' AND (event_name LIKE '%".$event_name."%' OR event_location LIKE '%".$event_loc."%' OR event_detail LIKE '%".$event_detail."%') ORDER BY event_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	$recent[] = array(
+	    			'event_id' => $row['id'],
+	    			'user_id' => $row['user_id'],
+	    			'event_name' => $row['event_name'],
+	    			'event_time' => $row['event_time'],
+	    			'event_location' => $row['event_location'],
+	    			'event_detail' => $row['event_detail'],
+	    			'event_poster_url' => $row['event_poster_url'],
+	    			'event_likes' => $row['event_likes'],
+	    			'event_comments' => $row['event_comments'],
+	    			'create_time' => $row['create_time']
+
+	    		);
+	    }
+	    $json = json_encode($recent);
+        echo $json;
+	    return $json;
+
+
+	}
+
+	/*
+	*	Search the recent list of events after today's date with or option
+	*/
+	function search_events_recent_after_today_union_norm($event_name,$event_loc,$event_detail){
+		$curtime = date('Y-m-d H:i:s');
+
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE event_time > '".$curtime."' AND (event_name LIKE '%".$event_name."%' OR event_location LIKE '%".$event_loc."%' OR event_detail LIKE '%".$event_detail."%') ORDER BY event_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	array_push($recent, $row);
+	    }
+
+	    return $recent;
+
+
+	}
+
+	/*
+	*	Search the recent list of events after today's date
+	*/
+	function search_events_detail_recent_after_today($keyword){
+		$curtime = date('Y-m-d H:i:s');
+
+		$link = mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD) or die('connect to sql fail');
+    	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
+	    
+	    try {
+	        $query = "SELECT * FROM event WHERE event_detail LIKE '%".$keyword."%' ORDER BY event_time";
+		    $results = mysql_query($query) or die('query fail');
+
+	    } catch (Exception $e) {
+	        echo "Data could not be retrieved from the database.";
+	        exit;
+	    }
+	    $recent = array();
+
+	    while($row = mysql_fetch_array($results,MYSQLI_ASSOC)){
+
+	    	$recent[] = array(
+	    			'event_id' => $row['id'],
+	    			'user_id' => $row['user_id'],
+	    			'event_name' => $row['event_name'],
+	    			'event_time' => $row['event_time'],
+	    			'event_location' => $row['event_location'],
+	    			'event_detail' => $row['event_detail'],
+	    			'event_poster_url' => $row['event_poster_url'],
+	    			'event_likes' => $row['event_likes'],
+	    			'event_comments' => $row['event_comments'],
+	    			'create_time' => $row['create_time']
+
+	    		);
+	    }
+	    $json = json_encode($recent);
+        echo $json;
+	    return $json;
+
 
 	}
 	// Return a time string

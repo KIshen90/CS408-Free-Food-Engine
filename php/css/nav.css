@@ -3,6 +3,11 @@
   border-bottom-color: #fff;
 }
 
+.navbar {
+  position: fixed;
+  width:100%;
+}
+
 .my-nav .navbar-nav > .active > a, .my-nav .navbar-nav > .active > a:hover {
      color: rgb(114, 192, 44);
     background-color: rgb(255, 255, 255);
@@ -72,7 +77,23 @@ margin: 30px auto 0;
 .user-profile{
   position:fixed;
   top:20px;
+  left:30px;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.logout {
+  position:fixed;
+  top:20px;
   right:30px;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.createAnEvent {
+  position:fixed;
+  top:20px;
+  left:45%;
   text-decoration: none;
   list-style-type: none;
 }

@@ -258,12 +258,7 @@ var geocoder;
 
 (function() {
 
-if(!!navigator.geolocation)
-{
-
 var map;
-
-
 
 var mapOptions = {
 	zoom: 15,
@@ -279,50 +274,10 @@ var mapOptions = {
 	
 	var geolocate = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
 	
-	var geolocate1 = new google.maps.LatLng(38,-89);
-	
-	var marker = new google.maps.Marker({
-		map: map,
-		draggable:true,
-		animation: google.maps.Animation.DROP,
-		position:geolocate
-	});
-	
-	
-	var marker1 = new google.maps.Marker({
-		map: map,
-		draggable:true,
-		animation: google.maps.Animation.DROP,
-		position:geolocate1
-	});
-
-	google.maps.event.addListener(marker,'click',content);
-	
-	
-
-	
-function content(){
-	var infowindow = new google.maps.InfoWindow ( {
-	map:map,
-	position:geolocate,
-	 content:
-		'<h1 id="header1"> Location pinned from Html5 Geolocation!</h1>' + 
-		'<h2> Latitude: ' + position.coords.latitude + '</h2>' +
-		'<h2> Longitude:' + position.coords.longitude + '</h2>'
-		}); 
-}
-		
 		map.setCenter(geolocate1);
 		});
-}else {
-		document.getElementById('googleMap').innerHTML = 'No Geolocation Support.';
 }
-
-
 }) ();
-
-
-
 
 </script>
 

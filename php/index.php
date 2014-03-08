@@ -4,6 +4,9 @@ require_once "inc/events.php";
 require_once "inc/comment.php";
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
+$events = get_events_recent_after_today();
+   $total = get_total_num();
+          $total = intval($total);
 ?>
 
 <!DOCTYPE html>
@@ -20,15 +23,27 @@ require_once "inc/comment.php";
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/nav.css" rel="stylesheet">
-    
-    <style type="text/css">
-      
+
+ <style type="text/css">
+
+      .header1{
+        font-size:10;
+      }
       .main-wrapper{
         margin-top:10px;
-        margin-left: auto;
+        margin-left: auto
         margin-right: auto;
         max-width: 700px;
       }
+
+       #map-canvas { 
+        margin-top: 10px;
+        margin-right:auto;
+        margin-left: auto;
+        max-width:700px;
+        height:350px;
+      }
+
       .side-bar{
         border-left:1px dotted #CCC;
         height:500px;
@@ -114,10 +129,23 @@ require_once "inc/comment.php";
               
               <ul class="nav navbar-nav">
                 <div class="user-profile">
-                 <li><a href="#">
+                 <li><a href="user/index.php?user_id=<?php echo $user; ?>">
                  <span><img style="width:25px; height:25px; margin:0px; padding:0px; margin-right:4px;" class="img-rounded" src="https://graph.facebook.com/<?php echo $user; ?>/picture"><span><?php echo $user_profile['name']?> </span><!--<b class="caret"></b>--></span>
                  </a></li>
                  <li><a class = "logout" href="logout.php">Logout</a></li>
+
+                 <script>
+                  $(".logout").click(function (event) 
+                    { 
+                       event.preventDefault(); 
+                       var r = confirm("Are you sure to logout? Press \"OK\" to confirm");
+                       if(r == true){
+                          var url = $(this).attr('href');
+                          $.get(url, function(data) {
+                          });
+                    }
+                    });
+                 </script>
                  <li class = "active"><center><a class = "createAnEvent" href="event/create.php">Create a event here</a></center></li>
                  </div>
               </ul>
@@ -130,152 +158,31 @@ require_once "inc/comment.php";
       <h1 class="hero-title">Where is free food?</h1>
       <p class="hero-description">Free food information around Purdue University Campus.</p>
       <a class="fb-share-button" data-href="http://freefood-weiqing.rhcloud.com" data-type="button_count"></a>
-                        
+                       
       </header>
-
+      <div class="google-map" id="map-canvas"></div> 
       <div class="container main-wrapper span6">
         <div class="panel panel-default">
          <div class="panel-body">
 
            <form class="search-form" role="search">
             <div class="form-group">
-              <input type="text" class="myinput my-search" placeholder="Search">
+              <input id = "search-input" type="text" class="myinput my-search" placeholder="Search">
+
             </div>
+
+
            
           </form>
 
           <div class="event-list">
-            <div class="row">
-          <?php 
-          
-          $events = get_events_recent_after_today();
-          //print_r($events);
-            foreach($events as $event){
-              $comments = get_comments($event['id']);
-              $num_comment = count($comments);
-              ?>
-              
-                <!--<div class="col-sm-6 col-md-4">-->
-                <div class="row event">
-                 <!--<div class="thumbnail">-->
-                    <div class="caption">
-                      <div id="event-header"><h3><a class="event-title" href="event/index.php?event_id=<?php echo $event['id']?>"><?php echo $event['event_name']?></a></h3>
-                       
-                        <?php 
-                          for ($i = 1; $i <= intval($event['event_likes']); $i++) {
-                              if($i == 10)break;
-                              echo "<span id=\"pizza\"></span>";
-                          }
-                        ?>
-                        <a class="event-info-text pull-right like-btn" style="color:#AAA; display:inline-block; cursor:pointer;" href="/event/like.php?event_id=<?php echo $event['id']?>&user_id=<?php echo $user?>">Like?(<?php echo $event['event_likes']?>)</a>
-                       
-                      </div>
-
-                      <h5><?php echo "@" . futureTime2String($event['event_time'])?></h5>
-                     
-                       <p style="color:#999;"><?php 
-                      $string = $event['event_detail'];
-                      $string = strip_tags($string);
-
-                      if (strlen($string) > 500) {
-
-                          // truncate string
-                          $stringCut = substr($string, 0, 500);
-
-                          // make sure it ends in a word so assassinate doesn't become ass...
-                          $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'... <a href="event/index.php?event_id='.$event['id'].'">Read More</a>'; 
-                      }
-                      echo $string;
-                      
-
-                      ?></p>
-                      <div class="event-info">
-
-			<div style="display:none;" id="location-map" class="result"><a href="" id="my_href"><img class="img-rounded" width="100%" height="250" src="http://maps.google.com/maps/api/staticmap?center=<?php echo $event['event_location']?>%20purdue%22&markers=<?php echo $event['event_location']?>%20purdue%22&zoom=17&size=700x250&scale=2&maptype=roadmap&sensor=false" id="my_src"></a></div>
-
-                        <span class="glyphicon glyphicon-map-marker event-icon"></span>
-                        <span class="event-info-text" style="color:#AAA"><?php echo $event['event_location']?></span>
-                        <br>
-                        <span class="glyphicon glyphicon-comment event-icon"></span>
-                        <span class="event-info-text" style="color:#AAA"><?php echo $num_comment?></span>
-                        <!--<span class="glyphicon glyphicon-heart event-icon" style="color:#EB3F3F;"></span>-->
-                        <span class="time-str" style="font:small;color:#AAA;"><?php echo "Posted ".time2string($event['create_time'])." ago"?></span>
-                        <!--
-                        <a class="fb-share-button" data-href="http://freefood-weiqing.rhcloud.com/event/index.php?event_id=<?php echo $event['id']?>" data-type="icon_link"></a>
-                        -->
-                       <!-- <span class="pull-right" style="color:#AAA;">Comment</span>-->
-                      
-                      </div>
-	
-                      <div class="row comment-box" style="display:none;">
-                        <?php  if($num_comment>0):
-                        ?>
-                        <div class="media ">
-
-                         
-
-                          <?php 
-                          //$reversed = array_reverse($comments);
-                          foreach($comments as $comment){
-                            $comment_user = get_user_info($comment['user_id']);
-                            ?>
-                          <div class="media media-comment">
-                            <a class="pull-left" href="#">
-                             <img class="media-object img-rounded" style="width:30px; height:30px; margin:0px; padding:0px; margin-top:2px;" src="<?php echo $comment_user[0]['avatar_url'] ?>" alt="...">
-                            </a>
-                            <div class="media-body">
-                              <a><?php echo $comment_user[0]['username']?>:</a>
-                              <?php echo $comment['content']?>
-                              <br> <span class="time-str" style="font-size:small;color:#AAA;"><?php echo time2string($comment['create_time'])." ago"?></span>
-                            </div>
-                          </div>
-                          <?php }?>
-
-                         <div class="media comment-input-div">
-                            <a class="pull-left" href="#">
-                              <img class="media-object img-rounded" style="width:30px; height:30px; margin:0px; padding:0px; margin-top:2px;" src="https://graph.facebook.com/<?php echo $user; ?>/picture" alt="...">
-                            </a>
-                            <div class="media-body">
-                              <form class="comment-form">
-                                <input type="text" class="form-control comment-input" placeholder="Write a comment...">
-                                <input type="hidden" name="event-id" class="event-id-hidden" value="<?php echo $event['id']?>">
-                              </form>
-                            </div>
-                          </div>
-
-                        </div>
-                        <?php else:?>
-                          <div class="media comment-input-div">
-                            <a class="pull-left" href="#">
-                              <img class="media-object img-rounded" style="width:30px; height:30px; margin:0px; padding:0px; margin-top:2px;" src="https://graph.facebook.com/<?php echo $user; ?>/picture" alt="...">
-                            </a>
-                            <div class="media-body">
-                              <form class="comment-form">
-                                <input type="text" class="form-control comment-input" placeholder="Write a comment...">
-                                <input type="hidden" name="event-id" class="event-id-hidden" value="<?php echo $event['id']?>">
-                              </form>
-
-                            </div>
-                          </div>
-                        <?php endif?>
-                        
-                      </div>
-                      
-                    </div>
-                 <!--</div>-->
-                </div>
-              
-            <?php
-              }
-            ?>
-          </div>
+            
 
          </div>
+         <button type="button" style="padding:5px;" class="form-control btn btn-default btn-lg btn-load">
+           Load More...
+        </button>
 
-        
-         
-         
-        
       </div>
       </div>
 
@@ -291,12 +198,6 @@ require_once "inc/comment.php";
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">FreeFood</h3>
-              <ul class="nav masthead-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
             </div>
           </div>
 
@@ -310,7 +211,7 @@ require_once "inc/comment.php";
 
           <div class="mastfoot">
             <div class="inner">
-              <p>&copy; FreeFoodEngine 2014</p>
+              <p>&copy; FreeFoodEngine Copyright 2014 Kishen Sivalingam,Qing Wei, Yinchen Yang and Sagar S Pujara.  All rights reserved.  Content presented on FreeFoodEngine is property of their respective owners and not owned by FreeFoodEngine</p>
             </div>
           </div>
 
@@ -325,12 +226,16 @@ require_once "inc/comment.php";
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="<script type ="text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type ="text/javascript"  src ="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-    <script type ="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>"></script>
+    <script type ="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     <script>
 
     $(document).ready(function() {
+       var track_load = 0; //total loaded record group(s)
+        var loading  = false; //to prevents multipal ajax loads
+        var total = <?php echo $total?>;
+        $('.event-list').load("event/ajax_load.php?group_no="+track_load,  function() {track_load++;});
+
         var cur_user = "<?php echo $user_profile['name'] ?>";
         var cur_user_avatar = "https://graph.facebook.com/<?php echo $user; ?>/picture";
 
@@ -374,24 +279,26 @@ require_once "inc/comment.php";
             }
 
 
-        $(".glyphicon-map-marker").click(function(){
+       
+        $(document).on('click','.glyphicon-map-marker', function(){
 
           $(this).parent().find("#location-map").toggle();
 
         });
 
-        $(".glyphicon-comment").click(function(){
+        $(document).on('click','.glyphicon-comment', function(){
 
           $(this).parent().parent().find(".comment-box").toggle();
 
         });
+
         $(".facebook").click(function(){
             
            window.location.replace("<?php echo $loginUrl; ?>");
 
         });
-        $('.comment-input').keypress(function(event) {
-                if(event.which == 13) {
+        $(document).on('keypress', '.comment-input', function(event){
+            if(event.which == 13) {
                     event.preventDefault();
                     
                     if($(this).val()!=""){
@@ -402,7 +309,9 @@ require_once "inc/comment.php";
                       $(this).parent().parent().parent().before("<div class=\"media media-comment\"><a class=\"pull-left\" href=\"#\"><img class=\"media-object img-rounded\" style=\"width:30px; height:30px; margin:0px; padding:0px; margin-top:2px;\" src=\""+cur_user_avatar+"\" alt=\"...\"></a><div class=\"media-body\"><a>"+cur_user+": </a>"+comment+" <br> <span class=\"time-str\" style=\"font-size:small;color:#AAA;\">a few seconds ago</span></div></div>");
                     }
                 }
+
         });
+      
 
          $('.my-search').keypress(function(event) {
                 if(event.which == 13) {
@@ -413,22 +322,49 @@ require_once "inc/comment.php";
                     }
                 }
         });
+        $('.search-btn').click(function (evnet){
+          event.preventDefault();
+          var search_in = document.getElementById("search-input");
+            if(search_in.val()!=""){
+              window.location.replace("https://freefood-weiqing.rhcloud.com/event/search.php?search_event="+ search_in.val());
+            }
+        });
 
         $('.create-event-btn').click(function(){
 
 
         });
 
-        $(".like-btn").click(function (event) 
-        { 
-           event.preventDefault(); 
+         $(document).on('click', '.like-btn', function (event){
+
+          event.preventDefault(); 
            var selector = $(this);
            var url = $(this).attr('href');
             $.get(url, function(data) {
               selector.text(data);
             });
+        });
 
-         });
+        $(".btn-load").click(function (event){
+
+        event.preventDefault(); 
+           $.get('event/ajax_load.php?group_no='+track_load, function(data){
+                    if(data == "")$(".btn-load").text("No More Events");          
+                    $(".event-list").append(data); //append received data into the element
+ 
+                    track_load++; //loaded group increment
+                    //loading = false; 
+                    if(track_load >= total+2)$(".btn-load").text("No More Events");
+                
+                }).fail(function(xhr, ajaxOptions, thrownError) { //any errors?
+                    
+                    alert(thrownError); //alert with HTTP error
+                    //$('.animation_image').hide(); //hide loading image
+                    //loading = false;
+                
+                });
+
+        });
 
         $(".fb-share-button").click(function (event) 
         { 
@@ -441,14 +377,126 @@ require_once "inc/comment.php";
 
       });
 
-      
-        
+</script>
+ <script type="text/javascript">
+  var delay = 100;
+  var infowindow = new google.maps.InfoWindow();
+  var latlng = new google.maps.LatLng(21.0000, 78.0000);
+  var geolocate; 
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+  
+  geolocate = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+  map.setCenter(geolocate);
+  });
+
+  var mapOptions = {
+    zoom: 12,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  var geocoder = new google.maps.Geocoder(); 
+  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  var bounds = new google.maps.LatLngBounds();
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+  
+  var geolocate = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+  map.setCenter(geolocate);
+  }); 
+
+  function geocodeAddress(address, next, headerdesp,timeVar) {
+    geocoder.geocode({address:address}, function (results,status)
+      { 
+         if (status == google.maps.GeocoderStatus.OK) {
+          var p = results[0].geometry.location;
+          var lat=p.lat()+Math.random()*0.0002;
+          var lng=p.lng()+Math.random()*0.0002;
+          createMarker(address,lat,lng,headerdesp,timeVar);
+        }
+        else {
+           if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+            nextAddress--;
+            delay++;
+          } else {
+                        }   
+        }
+        next();
+      }
+    );
+  }
+
+   var locations = new Array();
 
 
+   var loc; 
+   <?php foreach($events as $event){ ?> 
+    loc = "<?php echo $event['event_location']?>"; 
+    loc += " purdue"
+    locations.push(loc); 
 
+    <?php } ?>
+
+    var desp = new Array();
+
+    var despTitle;
+    <?php foreach($events as $event){ ?> 
+    despTitle = "<?php echo $event['event_name']?>"; 
+    desp.push(despTitle); 
+
+    <?php } ?>
+
+
+    var eventTime = new Array();
+
+    var eventTimeVar;
+    <?php foreach($events as $event){ ?> 
+    eventTimeVar = "<?php echo $event['event_time']?>"; 
+    eventTime.push(eventTimeVar); 
+
+    <?php } ?>
+
+
+//console.log(locations);
+
+  
+ function createMarker(add,lat,lng,headMarker,eventTimeDisplay) {
+   var contentString = add;
+   var headString = headMarker;
+   var timeString = eventTimeDisplay; 		
+   var marker = new google.maps.Marker({
+     position: new google.maps.LatLng(lat,lng),
+     map: map,
+    animation: google.maps.Animation.DROP,
+
+           });
+
+  google.maps.event.addListener(marker, 'click', function() {
+     infowindow.setContent('<h1 class="header1"> Information about free food!</h1>' + 
+    '<h2 class="header1" > Event name: ' + headString + '</h2>' +
+    '<h2 class="header1" > Location:' + contentString + '</h2>' +
+    '<h2 class="header1" > Time:' + timeString + '</h2>'); 
+     infowindow.open(map,marker);
+     infowindow.maxWidth=200;
+   });
+
+   bounds.extend(marker.position);
+
+ }
+  
+
+  var nextAddress = 0;
+  function theNext() {
+    if (nextAddress < locations.length) {
+      console.log(locations[nextAddress]);
+      setTimeout('geocodeAddress("'+locations[nextAddress]+'",theNext,"'+desp[nextAddress]+'","'+eventTime[nextAddress]+'")', delay);
+      nextAddress++;
+    } else {
+      map.fitBounds(bounds);
+    }
+  }
+  theNext();
 
 </script>
-	
 
   </body>
   </html>

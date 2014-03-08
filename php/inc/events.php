@@ -1,11 +1,15 @@
 <?php
-	define( "DB_SERVER",    getenv('OPENSHIFT_MYSQL_DB_HOST') );
-    define( "DB_USER",      getenv('OPENSHIFT_MYSQL_DB_USERNAME') );
-    define( "DB_PASSWORD",  getenv('OPENSHIFT_MYSQL_DB_PASSWORD') );
-    define( "DB_DATABASE",  getenv('OPENSHIFT_APP_NAME') );
+	require_once 'database.php';
+
     date_default_timezone_set('America/New_York'); 
 
-	if(isset($_POST['user_id']))
+
+	if(isset($_POST['id']))
+	{
+
+		update_event($_POST['id'],$_POST['user_id'],$_POST['event_name'],$_POST['event_time'],$_POST['event_location'],$_POST['event_detail'],$_POST['event_poster_url']);
+	}
+		else if(isset($_POST['user_id']))
 	{
 
    		create_event($_POST['user_id'],$_POST['event_name'],$_POST['event_time'],$_POST['event_location'],$_POST['event_detail'],$_POST['event_poster_url']);
@@ -36,7 +40,7 @@
 	    
 
 	}
-	function update_event($event_id, $user_id, $event_name, $event_time, $event_location, $event_detail, $event_poster_url){
+	function update_event($id, $user_id, $event_name, $event_time, $event_location, $event_detail, $event_poster_url){
 		
 
 		$posttime = date('Y-m-d H:i:s');
@@ -45,10 +49,7 @@
     	mysql_select_db('freefood') or die('Select DB freefood fail.'); 
     	
 	    try {
-	    	//$query_findevent_id = "SELECT event_id FROM event where user_id = '".$event_id."'"
-	    	//$result = mysql_query($query_findevent_id) or die('Fail to query checkuser');
-	    	//mysql_result($event_id, 0);
-	    	$query_update = "UPDATE event SET event_name='" . addslashes(htmlentities($event_name)) . "', event_time='" . $event_time . "', event_location='" . $event_location . "', event_detail='" . addslashes(htmlentities($event_detail)) . "',event_poster_url='" . $event_poster_url . "',create_time='" . $posttime . "' WHERE event_id='" . $event_id . "'";
+	    	$query_update = "UPDATE event SET event_name='" . addslashes(htmlentities($event_name)) . "', event_time='" . $event_time . "', event_location='" . $event_location . "', event_detail='" . addslashes(htmlentities($event_detail)) . "',event_poster_url='" . $event_poster_url . "',create_time='" . $posttime . "' WHERE id='" . $id . "'";
         	mysql_query($query_update) or die('Update fail');
 	    } catch (Exception $e) {
 	        echo "Data could not be insert into the database.";

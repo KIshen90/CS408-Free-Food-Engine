@@ -9,7 +9,9 @@ require_once "../inc/events.php";
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
 ?>
-
+<?php
+   $id = $_GET['id'];
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,12 +21,12 @@ require_once "../inc/events.php";
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Create event</title>
+    <title>Update event</title>
     
    <!-- Bootstrap core CSS -->
     <script type="text/javascript">//<![CDATA[ 
         window.onload=function(){
-        /* 
+        /*  
         Orginal Page: http://thecodeplayer.com/walkthrough/jquery-multi-step-form-with-progress-bar 
 
         */
@@ -32,7 +34,23 @@ require_once "../inc/events.php";
         var current_fs, next_fs, previous_fs; //fieldsets
         var left, opacity, scale; //fieldset properties which we will animate
         var animating; //flag to prevent quick multi-click glitches
-        /*
+
+        $(".event-name-input").keypress(function(event) {
+                if(event.which == 13) {
+                  $( ".mynext" ).trigger( "click" );
+                }
+        });
+
+        $(".event-time").keypress(function(event) {
+                if(event.which == 13) {
+                  $( ".mynext" ).trigger( "click" );
+                }
+        });
+        $(".event-detail").keypress(function(event) {
+                if(event.which == 13) {
+                  $( ".submit" ).trigger( "click" );
+                }
+        });
 
         $(".mynext").click(function(){
           if(animating) return false;
@@ -103,7 +121,7 @@ require_once "../inc/events.php";
             easing: 'easeInOutBack'
           });
         });
-  */
+
         $(".submit").click(function(){
           return false;
         })
@@ -119,9 +137,9 @@ require_once "../inc/events.php";
    <!-- <script src='../js/jquery-ui.custom.min.js'></script> -->
     <script src="../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../js/bootstrap-datepicker.js"></script>
+    <script type ="text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type ="text/javascript"  src ="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
     <script type ="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
-   
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/trontastic/jquery-ui.css">
      
     <style type="text/css">
@@ -191,30 +209,41 @@ require_once "../inc/events.php";
       <div class="container main-wrapper">
             
                             <!-- multistep form -->
-        <form class="msform" id="registration-form">
-          
+        <form class="msform">
+          <!-- progressbar -->
+
+          <!-- fieldsets -->
+          <fieldset>
             <h2 class="fs-title">Enter the Event Name</h2>
             <h3 class="fs-subtitle">This is step 1</h3>
             <input class="event-name-input" type="text" name="eventname" placeholder="Name" />
-          
+   
+            <input type="button" name="next" class="mynext action-button" value="Next" />
+          </fieldset>
+          <fieldset>
             <h2 class="fs-title">Where and when</h2>
             <h3 class="fs-subtitle">Where is the event ?</h3>
-            <input class= "event-location " type="text" name="Location" id= "Address" placeholder="Where is this event?" list="locations" />
+            <input class= "event-location" type="text" name="Location" id= "address"placeholder="Where is this event?" list="locations" />
             <h3 class="fs-subtitle">Date and time</h3>
-            <input class="event-time" type="datetime-local" name="datetime" id="Date" min="2013-08-28T00:00:00"/>
-          
+            <input class="event-time" type="datetime-local" name="datetime" id="startDate" min="2013-08-28T00:00:00"/>
+            
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" name="next" class="mynext action-button" value="Next" />
+          </fieldset>
+          <fieldset>
             <h2 class="fs-title">More Details</h2>
-            <h3 class="fs-subtitle">Last step, just give us some more info (Optional)</h3>
+            <h3 class="fs-subtitle">Last step, just give us some more info</h3>
             
             <input class="event-poster-url" type="text" name="Posterurl" placeholder="Paste a url for the poster!" />
            
             <textarea class="event-detail" name="Desciption" placeholder="Description of event" ></textarea>
-            <input type="button" name="previous" class="previous action-button" value="Cancel" />
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="submit" name="submit" class="submit action-button" value="Submit" />
-          
+          </fieldset>
         </form>
         <!-- jQuery easing plugin -->
-        
+        <script src="http://thecodeplayer.com/uploads/js/jquery.easing.min.js" type="text/javascript"></script>
+
     </div>
           
 
@@ -447,57 +476,36 @@ H5
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-
-  <script type="text/javascript">
-  v2.Field.prototype.successClass = 'success';
-  v2.Field.prototype.instant = true;
-  v2.Field.prototype.displayErrors = 1;
-  v2.Field.prototype.positionErrorsAbove = false;
-  v2.Fieldset.prototype.positionErrorsAbove = false;
-
-  // Password validator
-  v2.Validator.add({
-    name: 'password',
-    message: 'Please use numbers and lower and uppercase letters',
-    fn: function(field, value, params) {
-      return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(value);
-    }
-  });
-</script>
      <script>
     $(document).ready(function() {
         var cur_user = "<?php echo $user_profile['name'] ?>";
         var cur_user_avatar = "https://graph.facebook.com/<?php echo $user; ?>/picture";
 
-        var input = (document.getElementById('Address'));
+        var input = (document.getElementById('address'));
         var autocomplete = new google.maps.places.Autocomplete(input);
-
 
         $(function() {
             //$('.event-time').datepicker();
             //$('.event-time').datepicker("bounce",$(this).val());
         });
-        $(".previous").click(function(){
-
-           window.location.replace("http://freefood-weiqing.rhcloud.com");
-        });
+  
 
       
-        function addEvent(user_id, event_name, event_time, event_location, event_detail, event_poster_url){
+        function updateEvent(id,user_id, event_name, event_time, event_location, event_detail, event_poster_url){
 
                   jQuery.ajax({
                        type: "POST",
                        url: "../inc/events.php",
-                       data: { user_id: user_id, event_name: event_name, event_time: event_time, event_location: event_location, event_detail: event_detail, event_poster_url: event_poster_url},
+                       data: { id: id, user_id: user_id, event_name: event_name, event_time: event_time, event_location: event_location, event_detail: event_detail, event_poster_url: event_poster_url},
                        cache: false,
                        success: function(response){
-                        alert("Event create successfully!");
+                        alert("Event Updated!");
                         $(".event-name-input").val("");
                         $(".event-location").val("");
                         $(".event-time").val("");
                         $(".event-poster-url").val("");
                         $(".event-detail").val("");
-                        window.location.replace("http://freefood-weiqing.rhcloud.com");
+                        window.location.replace("http://freefood-weiqing.rhcloud.com/user/index.php?user_id="+ user_id);
                       
                       }
                     });
@@ -505,26 +513,6 @@ H5
 
 
         $('.submit').click(function(){
-
-             var flag = 0;
-            if($(".event-name-input").val()==''){
-             $(".event-name-input").removeClass("idleField").removeClass("focusField").addClass("warnField");
-              flag = 1;
-            }
-            if($(".event-location").val()==''){
-              $(".event-location").removeClass("idleField").removeClass("focusField").addClass("warnField");
-              //event.preventDefault();
-              flag = 1;
-            }
-             if($(".event-time").val()==''){
-              $(".event-time").removeClass("idleField").removeClass("focusField").addClass("warnField");
-              flag = 1;
-             // event.preventDefault();
-            }
-            console.log("debug");
-            if(flag == 1){return false;}
-
-            console.log("debug");
             if($(".event-name-input").val()!="" && $(".event-location").val()!="" && $(".event-time").val()!=""){
                       var event_name = $(".event-name-input").val();
                       console.log(event_name);
@@ -537,7 +525,7 @@ H5
                       var event_detail = $(".event-detail").val();
                       console.log(event_detail);
 
-                      addEvent(<?php echo $user?>,event_name,event_time,event_location,event_detail,event_poster_url);
+                      updateEvent(<?php echo $id?>,<?php echo $user?>,event_name,event_time,event_location,event_detail,event_poster_url);
                       
             }
 

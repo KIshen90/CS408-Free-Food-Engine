@@ -14,13 +14,13 @@ html {
 body {
 	}
 /*form styles*/
-#msform {
+.msform {
 	width: 500px;
 	margin: 50px auto;
 	text-align: center;
 	position: relative;
 }
-#msform fieldset {
+.msform fieldset {
 	background: white;
 	border: 0 none;
 	border-radius: 3px;
@@ -37,11 +37,11 @@ body {
 	position: absolute;
 }
 /*Hide all except first fieldset*/
-#msform fieldset:not(:first-of-type) {
+.msform fieldset:not(:first-of-type) {
 	display: none;
 }
 /*inputs*/
-#msform input, #msform textarea {
+.msform input, .msform textarea {
 	padding: 15px;
 	border: 1px solid #ccc;
 	border-radius: 3px;
@@ -53,7 +53,7 @@ body {
 	font-size: 13px;
 }
 /*buttons*/
-#msform .action-button {
+.msform .action-button {
 	width: 100px;
 	background: #747692;
 	font-weight: bold;
@@ -64,7 +64,7 @@ body {
 	padding: 10px 5px;
 	margin: 10px 5px;
 }
-#msform .action-button:hover, #msform .action-button:focus {
+.msform .action-button:hover, .msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #747692;
 }
 /*headings*/
@@ -80,3 +80,19 @@ body {
 	color: #666;
 	margin-bottom: 20px;
 }
+
+    .warnField{
+       border-color: rgb(250, 50, 50);
+        outline: 0px none;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(200, 20, 20, 0.6);
+    }
+    .focusField{
+       border-color: rgb(102, 175, 233);
+        outline: 0px none;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
+    }
+    .idleField{
+       border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    }

@@ -162,6 +162,7 @@ require_once "../inc/user.php";
                           }
                         ?>
                         <a class="event-info-text pull-right delete-btn" style="color:#AAA; display:inline-block; cursor:pointer;" href="../event/delete.php?event_id=<?php echo $event['id']?>" >Delete</a>
+                        <a class="event-info-text pull-right update-btn" style="color:#AAA; display:inline-block; cursor:pointer;" href="../event/update.php?id=<?php echo $event['id']?>" >Update</a>
                        
                       </div>
 
@@ -419,11 +420,18 @@ require_once "../inc/user.php";
         $(".delete-btn").click(function (event) 
         { 
            event.preventDefault(); 
-           var selector = $(this); 
-           var parent1 = $(selector).parent();
-           var parent2 = $(parent1).parent();
-           var parent3 = $(parent2).parent();
-           $(parent3).remove();
+           var r = confirm("This event will be deleted. Press \"OK\" to confirm");
+           if(r == true){
+              var url = $(this).attr('href');
+              $.get(url, function(data) {
+              });
+             var selector = $(this); 
+             var parent1 = $(selector).parent();
+             var parent2 = $(parent1).parent();
+             var parent3 = $(parent2).parent();
+             $(parent3).remove();
+          }
+
 
          });
 
